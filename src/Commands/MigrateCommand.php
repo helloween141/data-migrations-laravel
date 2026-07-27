@@ -39,7 +39,7 @@ class MigrateCommand extends Command
      */
     public function handle(MigratorContract $migrator): void
     {
-        if (! $this->confirmToProceed()) {
+        if (! $this->confirmToProceed(callback: $this->getDefaultConfirmCallback())) {
             return;
         }
 

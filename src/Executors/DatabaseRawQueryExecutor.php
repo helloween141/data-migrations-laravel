@@ -20,7 +20,10 @@ class DatabaseRawQueryExecutor extends AbstractExecutor
             /** @var ConnectionResolverInterface $db */
             $db = $this->app->make('db');
 
-            return $db->connection($connection_name)->unprepared($data);
+            /** @var literal-string $query */
+            $query = $data;
+
+            return $db->connection($connection_name)->unprepared($query);
         }
 
         return false;

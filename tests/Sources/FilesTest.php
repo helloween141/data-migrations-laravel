@@ -105,9 +105,9 @@ class FilesTest extends AbstractTestCase
 
         $this->assertEquals(
             $now->format('Y_m_d')
-            . '_' . str_pad($now->secondsSinceMidnight(), 6, '0', STR_PAD_LEFT)
+            . '_' . str_pad((string) $now->secondsSinceMidnight(), 6, '0', STR_PAD_LEFT)
             . '_' . 'foo.sql',
-            $this->files->generateFileName('foo')
+            $this->files->generateFileName('foo', $now)
         );
 
         $this->assertEquals(
@@ -147,10 +147,12 @@ class FilesTest extends AbstractTestCase
 
         $migration_files = new Files($files, $path);
 
-        $this->assertFileDoesNotExist(
-            $expected_path = $path . DIRECTORY_SEPARATOR . $migration_files->generateFileName($name = 'test_migration')
-        );
-        $result = $migration_files->create($name);
+        $when = Carbon::now();
+        $name = 'test_migration';
+        $expected_path = $path . DIRECTORY_SEPARATOR . $migration_files->generateFileName($name, $when);
+
+        $this->assertFileDoesNotExist($expected_path);
+        $result = $migration_files->create($name, $when);
         $this->assertEquals($expected_path, $result);
         $this->assertFileExists($result);
         $this->assertStringEqualsFile($result, '');

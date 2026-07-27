@@ -47,7 +47,7 @@ class Files implements SourceContract
     /**
      * {@inheritdoc}
      */
-    public function migrations(string $connection_name = null): array
+    public function migrations(?string $connection_name = null): array
     {
         $path = $this->getPathForConnection($connection_name);
 
@@ -85,7 +85,7 @@ class Files implements SourceContract
      *
      * @return string
      */
-    public function generateFileName($migration_name, Carbon $date = null, $extension = 'sql'): string
+    public function generateFileName($migration_name, ?Carbon $date = null, $extension = 'sql'): string
     {
         /** @var Carbon $when */
         $when = $date instanceof Carbon
@@ -161,7 +161,7 @@ class Files implements SourceContract
      *
      * @return string
      */
-    public function nameToPath(string $name, string $connection_name = null): string
+    public function nameToPath(string $name, ?string $connection_name = null): string
     {
         return $this->getPathForConnection($connection_name) . DIRECTORY_SEPARATOR . ltrim($name, '\\/');
     }
@@ -207,7 +207,7 @@ class Files implements SourceContract
      *
      * @return string
      */
-    protected function getPathForConnection(string $connection_name = null): string
+    protected function getPathForConnection(?string $connection_name = null): string
     {
         return $this->migrations_path . (\is_string($connection_name)
                 ? DIRECTORY_SEPARATOR . $connection_name
