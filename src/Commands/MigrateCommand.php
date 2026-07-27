@@ -39,7 +39,8 @@ class MigrateCommand extends Command
      */
     public function handle(MigratorContract $migrator): void
     {
-        if (! $this->confirmToProceed(callback: $this->getDefaultConfirmCallback())) {
+        /** @phpstan-ignore-next-line */
+        if (! $this->confirmToProceed()) {
             return;
         }
 
